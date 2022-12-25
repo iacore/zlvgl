@@ -4,7 +4,7 @@ const c = lv.c;
 pub const Label = @This();
 obj: *c.lv_obj_t,
 
-usingnamespace lv.Obj.Functions(Label);
+pub usingnamespace lv.Obj.Functions(Label);
 
 pub const LongMode = enum(u8) {
     Wrap = c.LV_LABEL_LONG_WRAP,

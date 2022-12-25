@@ -4,7 +4,7 @@ const c = lv.c;
 pub const Line = @This();
 obj: *c.lv_obj_t,
 
-usingnamespace lv.Obj.Functions(Line);
+pub usingnamespace lv.Obj.Functions(Line);
 
 pub fn init(parent: anytype) Line {
     return .{ .obj = c.lv_line_create(parent.obj).? };

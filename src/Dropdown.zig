@@ -4,7 +4,7 @@ const c = lv.c;
 pub const Dropdown = @This();
 obj: *c.lv_obj_t,
 
-usingnamespace lv.Obj.Functions(Dropdown);
+pub usingnamespace lv.Obj.Functions(Dropdown);
 
 pub fn init(parent: anytype) Dropdown {
     return Dropdown{ .obj = c.lv_dropdown_create(parent.obj).? };

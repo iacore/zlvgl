@@ -218,7 +218,6 @@ pub fn Functions(comptime Self: type) type {
         fn generateWrapper(comptime callbacks: type, comptime name: []const u8) fn (?*c.lv_event_t) callconv(.C) void {
             return struct {
                 fn f(e: ?*c.lv_event_t) callconv(.C) void {
-                    _ = e;
                     @field(callbacks, name)(Self{ .obj = e.?.target.? });
                 }
             }.f;

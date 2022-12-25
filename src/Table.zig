@@ -4,7 +4,7 @@ const c = lv.c;
 pub const Table = @This();
 obj: *c.lv_obj_t,
 
-usingnamespace lv.Obj.Functions(Table);
+pub usingnamespace lv.Obj.Functions(Table);
 
 pub const CellCtrl = enum(u8) {
     MergeRight = c.LV_TABLE_CELL_CTRL_MERGE_RIGHT,

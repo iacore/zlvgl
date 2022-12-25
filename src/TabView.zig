@@ -4,7 +4,7 @@ const c = lv.c;
 pub const TabView = @This();
 obj: *c.lv_obj_t,
 
-usingnamespace lv.Obj.Functions(TabView);
+pub usingnamespace lv.Obj.Functions(TabView);
 
 pub fn init(parent: anytype, tab_pos: lv.Dir, tab_size: i16) TabView {
     return .{

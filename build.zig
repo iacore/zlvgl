@@ -39,14 +39,11 @@ pub fn addDependencies(b: *std.build.Builder, exe: *std.build.LibExeObjStep, con
     const base = comptime std.fs.path.dirname(@src().file).?;
     exe.linkLibC();
 
-    exe.addIncludeDir(comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "./lvgl" }));
-    exe.addIncludeDir(base ++ "/configs");
-    exe.addIncludeDir(base ++ "/libs");
+    exe.addIncludePath(comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "./lvgl" }));
+    exe.addIncludePath(base ++ "/configs");
+    exe.addIncludePath(base ++ "/libs");
 
-    exe.addPackage(.{
-        .name = "zlvgl",
-        .path = .{ .path = comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "./src/lv.zig" }) },
-    });
+    exe.addPackagePath("zlvgl", comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "./src/lv.zig" }));
 
     switch (config.driver) {
         .Gtk => exe.linkSystemLibrary("gtk+-3.0"),
@@ -66,8 +63,8 @@ pub fn addDependencies(b: *std.build.Builder, exe: *std.build.LibExeObjStep, con
 
     const cflags = [_][]const u8{
         // TODO:
-        "-DLV_HOR_RES=800",
-        "-DLV_VER_RES=480",
+        "-DLV_HOR_RES_MAX=800",
+        "-DLV_VER_RES_MAX=480",
 
         "-DLV_CONF_INCLUDE_SIMPLE=1",
         "-fno-sanitize=all",
@@ -141,41 +138,40 @@ pub fn addDependencies(b: *std.build.Builder, exe: *std.build.LibExeObjStep, con
         comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/misc/lv_math.c" }),
         comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/misc/lv_style_gen.c" }),
         // widgets
-        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/widgets/lv_arc.c" }),
-        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/widgets/lv_btn.c" }),
-        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/widgets/lv_btnmatrix.c" }),
-        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/widgets/lv_bar.c" }),
-        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/widgets/lv_dropdown.c" }),
-        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/widgets/lv_textarea.c" }),
-        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/widgets/lv_checkbox.c" }),
-        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/widgets/lv_switch.c" }),
-        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/widgets/lv_roller.c" }),
-        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/widgets/lv_slider.c" }),
-        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/widgets/lv_table.c" }),
-        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/widgets/lv_img.c" }),
-        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/widgets/lv_label.c" }),
-        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/widgets/lv_line.c" }),
-        // extra
-        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/extra/lv_extra.c" }),
-        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/extra/widgets/tabview/lv_tabview.c" }),
-        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/extra/widgets/win/lv_win.c" }),
-        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/extra/widgets/msgbox/lv_msgbox.c" }),
-        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/extra/widgets/chart/lv_chart.c" }),
-        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/extra/widgets/spinner/lv_spinner.c" }),
-        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/extra/widgets/calendar/lv_calendar.c" }),
-        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/extra/widgets/calendar/lv_calendar_header_arrow.c" }),
-        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/extra/widgets/calendar/lv_calendar_header_dropdown.c" }),
-        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/extra/widgets/meter/lv_meter.c" }),
-        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/extra/widgets/keyboard/lv_keyboard.c" }),
-        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/extra/widgets/list/lv_list.c" }),
-        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/extra/widgets/menu/lv_menu.c" }),
+        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/widgets/arc/lv_arc.c" }),
+        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/widgets/btn/lv_btn.c" }),
+        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/widgets/btnmatrix/lv_btnmatrix.c" }),
+        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/widgets/bar/lv_bar.c" }),
+        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/widgets/dropdown/lv_dropdown.c" }),
+        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/widgets/textarea/lv_textarea.c" }),
+        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/widgets/checkbox/lv_checkbox.c" }),
+        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/widgets/switch/lv_switch.c" }),
+        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/widgets/roller/lv_roller.c" }),
+        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/widgets/slider/lv_slider.c" }),
+        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/widgets/table/lv_table.c" }),
+        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/widgets/img/lv_img.c" }),
+        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/widgets/label/lv_label.c" }),
+        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/widgets/line/lv_line.c" }),
+
+        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/widgets/tabview/lv_tabview.c" }),
+        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/widgets/win/lv_win.c" }),
+        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/widgets/msgbox/lv_msgbox.c" }),
+        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/widgets/chart/lv_chart.c" }),
+        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/widgets/spinner/lv_spinner.c" }),
+        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/widgets/calendar/lv_calendar.c" }),
+        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/widgets/calendar/lv_calendar_header_arrow.c" }),
+        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/widgets/calendar/lv_calendar_header_dropdown.c" }),
+        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/widgets/meter/lv_meter.c" }),
+        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/widgets/keyboard/lv_keyboard.c" }),
+        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/widgets/list/lv_list.c" }),
+        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/widgets/menu/lv_menu.c" }),
         //"lvgl/src/extra/widgets/spinbox/lv_spinbox.c"}),
         //"lvgl/src/extra/widgets/tileview/lv_tileview.c"}),
         //"lvgl/src/extra/widgets/colorwheel/lv_colorwheel.c"}),
         //"lvgl/src/extra/widgets/led/lv_led.c"}),
         //"lvgl/src/extra/layouts/grid/lv_grid.c"}),
-        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/extra/layouts/flex/lv_flex.c" }),
-        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/extra/themes/default/lv_theme_default.c" }),
+        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/layouts/flex/lv_flex.c" }),
+        comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/themes/default/lv_theme_default.c" }),
         // font
         comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/font/lv_font.c" }),
         comptime std.fmt.comptimePrint("{s}/{s}", .{ base, "libs/lvgl/src/font/lv_font_fmt_txt.c" }),

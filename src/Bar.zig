@@ -4,7 +4,7 @@ const c = lv.c;
 pub const Bar = @This();
 obj: *c.lv_obj_t,
 
-usingnamespace lv.Obj.Functions(Bar);
+pub usingnamespace lv.Obj.Functions(Bar);
 
 pub const Mode = enum(u8) {
     Normal = c.LV_BAR_MODE_NORMAL,

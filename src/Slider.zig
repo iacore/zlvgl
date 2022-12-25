@@ -4,7 +4,7 @@ const c = lv.c;
 pub const Slider = @This();
 obj: *c.lv_obj_t,
 
-usingnamespace lv.Obj.Functions(Slider);
+pub usingnamespace lv.Obj.Functions(Slider);
 
 pub fn init(parent: anytype) Slider {
     return .{
